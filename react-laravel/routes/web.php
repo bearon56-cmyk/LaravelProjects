@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TodosController;
 use App\Models\Todos;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -16,10 +17,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    $todos = Todos::all();
-    return Inertia::render('Dashboard', ['todos' => $todos]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -27,13 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/post', function (Request $request) {
-    $credential = $request->validate([
-        'description'=>['required', 'min:1'],
-    ]);
-    Todos::create($credential);
-
-    return redirect('/dashboard');
-});
+Route::get('/dashboard', [TodosController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/post', [TodosController::class, 'create']);
+Route::delete('/delete/{id}', [TodosController::class, 'destroy'])->name('todos.delete');
 
 require __DIR__.'/auth.php';

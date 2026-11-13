@@ -1,14 +1,19 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router, useForm } from '@inertiajs/react';
-import { useState } from 'react';
 
 export default function Dashboard({todos}) {
 
-    const [description, setDescription] = useState('')
+    const { data, setData, post, processing, errors, reset } = useForm({
+        description: '',
+    });
+
+    function handleDelete(id) {
+        router.delete(route('todos.delete', {id : id}))
+    }
 
     function handleSubmit(e){
         e.preventDefault()
-        router.post('/post', {description},{onSuccess: setDescription('')})
+        post('/post', {onSuccess:() => reset()})
     }
 
     return (
@@ -29,7 +34,8 @@ export default function Dashboard({todos}) {
 
                             <form onSubmit={handleSubmit} className='flex flex-col w-[40%]'>
                                 <label>Todo</label>
-                                <input value={description} onChange={(e)=>{setDescription(e.target.value)}} name='todos' type="text"  placeholder='Enter todos'/>
+                                <input onChange={(e)=>{setData('description',e.target.value)}} value={data.description} name='todos' type="text"  placeholder='Enter todos'/>
+                                {errors.description && <p className='text-red-600'>{errors.description}</p>}
                                 <input type="submit" className='p-1 hover:cursor-pointer self-start border bg-slate-600 text-white' value={"Submit"}/>
                             </form>
 
@@ -40,7 +46,11 @@ export default function Dashboard({todos}) {
 
         <ul>
             {todos.map((todo) => (
-                <li key={todo.id}>{todo.description}</li>
+                <div className='flex' key={todo.id}>
+                    <li>{todo.description}</li>
+                        <button onClick={()=>handleDelete(todo.id)} className='ml-4 text-red-600 text-xl hover:cursor-pointer'>X</button>
+                </div>
+
             ))}
         </ul>
 
