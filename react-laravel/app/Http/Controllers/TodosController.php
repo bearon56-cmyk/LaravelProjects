@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class TodosController extends Controller
 {
     public function index(){
-        $todos = Todos::all();
+        $todos = Todos::query()->where('completed', false)->get();
         return Inertia::render('Dashboard', ['todos' => $todos]);
     }
 
@@ -22,7 +22,7 @@ class TodosController extends Controller
     return redirect('/dashboard');
     }
 
-    public function destroy($id){
+    public function destroy(int $id){
         Todos::destroy($id);
 
         return redirect('/dashboard');
@@ -34,7 +34,18 @@ class TodosController extends Controller
         return redirect('/dashboard');
     }
 
-    public function completedPage(){
-        return Inertia::render('Completed');
+    public function completedPage()
+    {
+        $completedTodos = Todos::query()->where('completed', true)->get();
+
+        return Inertia::render('Completed', [
+            'completedTodos' => $completedTodos
+        ]);
     }
+
+    public function complete(int $id){
+        Todos::query()->where('id', $id)->update(['completed' => true]);
+        return redirect('/dashboard');
+    }
+
 }

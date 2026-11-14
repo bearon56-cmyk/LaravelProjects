@@ -10,6 +10,10 @@ export default function Dashboard({todos}) {
         router.delete(route('todos.destroy', {id : id}))
     }
 
+    function handleComplete(id){
+        router.post(route('todos.complete', {id : id}))
+    }
+
     function handleSubmit(e){
         e.preventDefault()
         post('/post', {onSuccess:() => reset()})
@@ -45,10 +49,16 @@ export default function Dashboard({todos}) {
 
         <Link href={'/destroyAll'} method='delete' className='hover:cursor-pointer mb-3'>Delete All</Link>
         <ul>
+            {console.log(todos)}
             {todos.map((todo) => (
                 <div className='flex' key={todo.id}>
+
                     <li>{todo.description}</li>
+                    <div>
                         <button onClick={()=>handleDelete(todo.id)} className='ml-4 text-red-600 text-xl hover:cursor-pointer'>X</button>
+                        <button onClick={()=>handleComplete(todo.id)} className='ml-4 text-green-700 text-xl hover:cursor-pointer'>V</button>
+                    </div>
+
                 </div>
 
             ))}

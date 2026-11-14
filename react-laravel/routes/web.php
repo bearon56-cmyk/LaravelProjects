@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/destroy/{id}', [TodosController::class, 'destroy'])->name('todos.destroy');
     Route::delete('/destroyAll', [TodosController::class, 'destroyAll'])->name('todos.destroy.all');
     Route::get('/completedPage', [TodosController::class, 'completedPage'])->name('completedPage');
+    Route::post('/complete/{id}', [TodosController::class, 'complete'])->name('todos.complete');
 });
 
 require __DIR__.'/auth.php';
