@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router, useForm } from '@inertiajs/react';
-
+import { Head, router, useForm, Link } from '@inertiajs/react';
 export default function Dashboard({todos}) {
 
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -8,7 +7,7 @@ export default function Dashboard({todos}) {
     });
 
     function handleDelete(id) {
-        router.delete(route('todos.delete', {id : id}))
+        router.delete(route('todos.destroy', {id : id}))
     }
 
     function handleSubmit(e){
@@ -44,6 +43,7 @@ export default function Dashboard({todos}) {
                 </div>
             </div>
 
+        <Link href={'/destroyAll'} method='delete' className='hover:cursor-pointer mb-3'>Delete All</Link>
         <ul>
             {todos.map((todo) => (
                 <div className='flex' key={todo.id}>

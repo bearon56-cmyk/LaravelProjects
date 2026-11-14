@@ -27,4 +27,14 @@ class TodosController extends Controller
 
         return redirect('/dashboard');
     }
+
+    public function destroyAll(){
+        Todos::query()->delete();
+
+        return redirect('/dashboard');
+    }
+
+    public function completedPage(){
+        return Inertia::render('Completed');
+    }
 }

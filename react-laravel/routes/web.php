@@ -18,15 +18,20 @@ Route::get('/', function () {
 });
 
 
-
+// Profile Controllers
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/dashboard', [TodosController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::post('/post', [TodosController::class, 'create']);
-Route::delete('/delete/{id}', [TodosController::class, 'destroy'])->name('todos.delete');
+// Todos Controllers
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [TodosController::class, 'index'])->name('dashboard');
+    Route::post('/post', [TodosController::class, 'create']);
+    Route::delete('/destroy/{id}', [TodosController::class, 'destroy'])->name('todos.destroy');
+    Route::delete('/destroyAll', [TodosController::class, 'destroyAll'])->name('todos.destroy.all');
+    Route::get('/completedPage', [TodosController::class, 'completedPage'])->name('completedPage');
+});
 
 require __DIR__.'/auth.php';
