@@ -25,7 +25,7 @@ class TodosController extends Controller
     public function destroy(int $id){
         Todos::destroy($id);
 
-        return redirect('/dashboard');
+        return back();
     }
 
     public function destroyAll(){

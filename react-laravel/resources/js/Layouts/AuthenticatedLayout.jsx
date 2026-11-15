@@ -5,7 +5,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function AuthenticatedLayout({ header, children }) {
+export default function AuthenticatedLayout({ header, children, animTrigger}) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -31,7 +31,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
 
-                            <div className="hidden sm:-my-px sm:ms-5 sm:flex">
+                            <div key={animTrigger} className={` hidden sm:-my-px sm:ms-5 sm:flex ${animTrigger > 0 ? 'motion-bg-in-green-400 motion-duration-1000' : ""}`}>
                                 <NavLink
                                     href={route('completedPage')}
                                     active={route().current('completedPage')}

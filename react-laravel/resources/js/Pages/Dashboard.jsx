@@ -1,6 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router, useForm, Link } from '@inertiajs/react';
+import { useState } from 'react';
 export default function Dashboard({todos}) {
+    const [animTrigger, setAnimTrigger] = useState(0)
 
     const { data, setData, post, processing, errors, reset } = useForm({
         description: '',
@@ -11,16 +13,20 @@ export default function Dashboard({todos}) {
     }
 
     function handleComplete(id){
-        router.post(route('todos.complete', {id : id}))
+        setAnimTrigger(animTrigger + 1)
+        console.log(animTrigger)
+        post(route('todos.complete', {id : id}))
     }
 
     function handleSubmit(e){
         e.preventDefault()
         post('/post', {onSuccess:() => reset()})
+
     }
 
     return (
         <AuthenticatedLayout
+            animTrigger={animTrigger}
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
                     Dashboard
@@ -31,7 +37,7 @@ export default function Dashboard({todos}) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-xs sm:rounded-lg">
+                    <div className="overflow-hidden bg-white shadow-xs sm:rounded-lg ">
                         <main className="p-6 text-gray-900 flex flex-col">
                             You're logged in! Make your own todolist!
 
@@ -41,28 +47,26 @@ export default function Dashboard({todos}) {
                                 {errors.description && <p className='text-red-600'>{errors.description}</p>}
                                 <input type="submit" className='p-1 hover:cursor-pointer self-start border bg-slate-600 text-white' value={"Submit"}/>
                             </form>
-
                         </main>
+
                     </div>
                 </div>
             </div>
 
-        <Link href={'/destroyAll'} method='delete' className='hover:cursor-pointer mb-3'>Delete All</Link>
-        <ul>
-            {console.log(todos)}
-            {todos.map((todo) => (
-                <div className='flex' key={todo.id}>
+            <ul className='self-center flex flex-col items-center gap-2'>
+                <Link href={'/destroyAll'} method='delete' className=' hover:cursor-pointer mb-3'>Delete All</Link>
+                {todos.map((todo) => (
+                    <div className='motion-translate-x-in-25 motion-ease-spring-bouncy flex' key={todo.id}>
 
-                    <li>{todo.description}</li>
-                    <div>
-                        <button onClick={()=>handleDelete(todo.id)} className='ml-4 text-red-600 text-xl hover:cursor-pointer'>X</button>
-                        <button onClick={()=>handleComplete(todo.id)} className='ml-4 text-green-700 text-xl hover:cursor-pointer'>V</button>
+                        <li >{todo.description}</li>
+                        <div>
+                            <button onClick={()=>handleDelete(todo.id)} className='ml-4 text-red-600 text-xl hover:cursor-pointer'>X</button>
+                            <button onClick={()=>handleComplete(todo.id)} className='ml-4 text-green-700 text-xl hover:cursor-pointer'>V</button>
+                        </div>
+
                     </div>
-
-                </div>
-
-            ))}
-        </ul>
+                ))}
+            </ul>
 
         </AuthenticatedLayout>
     );
