@@ -32,7 +32,7 @@ export default function BuyPage({product}:{product: Product}){
                     </div>
 
                 </div>
-                <div className=' w-[50%] max-h-[50%] flex justify-center px-3'>
+                <div className=' w-[50%] max-h-[40%] flex justify-center px-3'>
                     <button onClick={()=>setAskCheckout(true)} className='self-start mt-3 bg-blue-300 w-full p-2 rounded-2xl'>Continue To Checkout</button>
                 </div>
 

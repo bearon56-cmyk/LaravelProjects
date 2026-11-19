@@ -49,7 +49,7 @@ export default function Dashboard({products} : DashboardProps) {
                 {products.map((product)=>(
                     <div className='bg-linear-to-tl hover:bg-mist-200 bg-gray-300  transition-all ease-out hover duration-300 flex items-center border shadow-lg flex-col p-2'>
                         <p className='text-xs self-start'>{product.category}</p>
-                        <img className='size-70' loading='lazy' src={product.image} alt="" />
+                        <img className='size-50' loading='lazy' src={product.image} alt="" />
                         <p className='font-extrabold text-gray-600 text-xs'>{product.description}</p>
                         <p className=' self-start ml-3 my-2 bg-black text-white p-1'>{product.price}$</p>
                         <div className='font-extrabold' key={product.id}>{product.title}</div>

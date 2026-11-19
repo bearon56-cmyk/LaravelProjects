@@ -26,6 +26,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/buyPage/{id}', [BuyController::class, 'index']);
+    Route::get('/cart', function(){
+        return Inertia::render('Cart');
+    })->name('cart');
+
 });
 
 require __DIR__.'/auth.php';
