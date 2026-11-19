@@ -5,15 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Models\Cart;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+        public function index(Request $request)
     {
-        //
+        $products = $request->user()->carts()->get();
+
+        return Inertia::render('Cart', [
+            'products' => $products,
+        ]);
     }
 
     /**

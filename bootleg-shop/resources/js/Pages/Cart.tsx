@@ -16,10 +16,11 @@ interface productProps {
 
 export default function({products}:productProps){
     const user = usePage().props.auth.user;
-
+    {console.log(products)}
     return (
         <>
             <Head title="Cart"/>
+            
             {products.map((product, index)=>{
                 <p>{product.title}</p>
             })}

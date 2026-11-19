@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BuyController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -26,9 +27,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/buyPage/{id}', [BuyController::class, 'index']);
-    Route::get('/cart', function(){
-        return Inertia::render('Cart');
-    })->name('cart');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
 
 });
 
